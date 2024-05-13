@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- Responsible for launching AK60 motor manager nodes,
+will not provide any controllers; just a simple interface-->
+<launch>
+  <group ns="deimos">
+    <node pkg="deimos_control" type="ak60_node" name="actuator1" output="screen">
+      <param name="id" value="15"/>
+    </node>
+    
+  </group>
+</launch>
