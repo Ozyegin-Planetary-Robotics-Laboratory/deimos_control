@@ -1,8 +1,8 @@
 #include <map>
 #include <array>
 #include <vector>
-#include <deimos_control/MotorFeedback.h>
-#include <deimos_control/MotorCommand.h>
+#include <tmotor/MotorFeedback.h>
+#include <tmotor/MotorCommand.h>
 #include <hardware_interface/robot_hw.h>
 #include <hardware_interface/posvelacc_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
@@ -35,8 +35,8 @@ public:
       a_cmd_acc[i] = 0.0;
       std::string feedback_topic = "actuator" + std::to_string(i+1) + "/motor_feedback";
       std::string command_topic = "actuator" + std::to_string(i+1) + "/motor_command";
-      pubs.emplace_back(nh.advertise<deimos_control::MotorCommand>(command_topic, 1));
-      subs.emplace_back(nh.subscribe<deimos_control::MotorFeedback>(feedback_topic, 1, boost::bind(&RoboticArm::motorFeedbackCallback, this, _1, i)));
+      pubs.emplace_back(nh.advertise<tmotor::MotorCommand>(command_topic, 1));
+      subs.emplace_back(nh.subscribe<tmotor::MotorFeedback>(feedback_topic, 1, boost::bind(&RoboticArm::motorFeedbackCallback, this, _1, i)));
       hardware_interface::PosVelAccJointHandle posvelacc_handle(jnt_state_interface.getHandle(joint_names[i]), &a_cmd_pos[i], &a_cmd_vel[i], &a_cmd_acc[i]);
       hardware_interface::JointStateHandle state_handle(joint_names[i], &a_curr_pos[i], &a_curr_vel[i], &a_curr_eff[i]);
       posvelacc_joint_interface.registerHandle(posvelacc_handle);
@@ -48,7 +48,7 @@ public:
 
   void write() {
     for (int i = 0; i < number_of_joints; i++) {
-      deimos_control::MotorCommand msg;
+      tmotor::MotorCommand msg;
       msg.position = a_cmd_pos[i];
       msg.velocity = a_cmd_vel[i];
       msg.acceleration = a_cmd_acc[i];
@@ -70,7 +70,7 @@ private:
   double a_cmd_vel[number_of_joints];
   double a_cmd_acc[number_of_joints];
 
-  void motorFeedbackCallback(const deimos_control::MotorFeedback::ConstPtr& msg, int idx) {
+  void motorFeedbackCallback(const tmotor::MotorFeedback::ConstPtr& msg, int idx) {
     a_curr_pos[idx] = msg->position;
     a_curr_vel[idx] = msg->velocity;
     a_curr_eff[idx] = msg->current;
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
   RoboticArm deimos;
   controller_manager::ControllerManager cm(&deimos);
   ros::Time prev_time = ros::Time(0);
-  while (true) {
+  while (ros::ok()) {
     const ros::Time time = ros::Time::now();
     ros::spinOnce();
     cm.update(time, time - prev_time);

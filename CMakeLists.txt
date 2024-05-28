@@ -9,8 +9,8 @@ project(deimos_control)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  tmotor
   std_msgs
-  message_generation
   hardware_interface
   controller_manager
 )
@@ -48,11 +48,9 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  MotorCommand.msg
-  MotorFeedback.msg
-)
+# add_message_files(
+#   FILES
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -69,10 +67,10 @@ add_message_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -106,7 +104,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES deimos_control
-  CATKIN_DEPENDS roscpp std_msgs message_runtime
+  CATKIN_DEPENDS roscpp tmotor std_msgs
 #  DEPENDS system_lib
 )
 
@@ -135,9 +133,6 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/deimos_control_node.cpp)
-
-add_executable(ak60_node src/ak60_node.cpp)
-target_link_libraries(ak60_node ${catkin_LIBRARIES})
 
 add_executable(deimos_hw src/deimos.cpp)
 target_link_libraries(deimos_hw ${catkin_LIBRARIES})
