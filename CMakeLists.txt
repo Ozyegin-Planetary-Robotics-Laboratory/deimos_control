@@ -134,8 +134,8 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/deimos_control_node.cpp)
 
-add_executable(deimos_hw src/deimos.cpp)
-target_link_libraries(deimos_hw ${catkin_LIBRARIES})
+add_executable(DeimosHw src/deimos_hw.cpp)
+target_link_libraries(DeimosHw ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

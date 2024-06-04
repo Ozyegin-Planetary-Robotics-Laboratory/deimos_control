@@ -165,7 +165,7 @@
   <transmission name="transmission1">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint1">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PosVelAccJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor1">
       <mechanicalReduction>29</mechanicalReduction>
@@ -174,7 +174,7 @@
   <transmission name="transmission2">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint2">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PosVelAccJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor2">
       <mechanicalReduction>29</mechanicalReduction>
@@ -183,7 +183,7 @@
   <transmission name="transmission3">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint3">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PosVelAccJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor3">
       <mechanicalReduction>20</mechanicalReduction>
@@ -192,7 +192,7 @@
   <transmission name="transmission4">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="joint4">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PosVelAccJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor4">
       <mechanicalReduction>10</mechanicalReduction>
