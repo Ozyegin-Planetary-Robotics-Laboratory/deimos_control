@@ -1,30 +1,5 @@
 <?xml version="1.0"?>
-<!-- Responsible for launching AK60 motor manager nodes,
-will not provide any controllers; just a simple interface-->
-<launch>
-  <!-- Motor Interfaces -->
-  <group ns="deimos">
-    <node pkg="tmotor" type="tmotor_node" name="actuator1" output="screen">
-      <param name="id" value="11"/>
-      <param name="can_interface" value="vcan0" />
-    </node>
-    <node pkg="tmotor" type="tmotor_node" name="actuator2" output="screen">
-      <param name="id" value="12"/>
-      <param name="can_interface" value="vcan0" />
-    </node>
-    <node pkg="tmotor" type="tmotor_node" name="actuator3" output="screen">
-      <param name="id" value="13"/>
-      <param name="can_interface" value="vcan0" />
-    </node>
-    <node pkg="tmotor" type="tmotor_node" name="actuator4" output="screen">
-      <param name="id" value="14"/>
-      <param name="can_interface" value="vcan0" />
-    </node>
-  </group>
 
-  <!-- ROS Control --> 
-  <group ns="deimos">
-    <node pkg="deimos_control" type="deimos_hw" name="deimos_hw" output="screen" />
-    
-  </group>
+<launch>
+  
 </launch>
