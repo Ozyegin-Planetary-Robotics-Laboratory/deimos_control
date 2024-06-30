@@ -10,7 +10,6 @@ deimos_control::RoboticArm::RoboticArm():
   m_packet_handler(dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION)),
   m_nh("~")
 { 
-  // Initialize TMotor AK60s
   m_arr_cmd_acc.resize(m_number_of_joints+1, 0.0);
   m_arr_cmd_pos.resize(m_number_of_joints+1, 0.0);
   m_arr_cmd_vel.resize(m_number_of_joints+1, 0.0);
@@ -18,6 +17,8 @@ deimos_control::RoboticArm::RoboticArm():
   m_arr_curr_pos.resize(m_number_of_joints+1, 0.0);
   m_arr_curr_vel.resize(m_number_of_joints+1, 0.0);
   m_ak_managers.reserve(m_number_of_joints+1);
+  
+  // Initialize TMotor AK60s
   for (int i = 0; i < m_number_of_joints; i++)
   {
     m_arr_curr_pos[i] = 0.0;
@@ -39,7 +40,6 @@ deimos_control::RoboticArm::RoboticArm():
   hardware_interface::JointStateHandle state_handle("joint5", &m_arr_curr_pos[4], &m_arr_curr_vel[4], &m_arr_curr_eff[4]);
   m_posvel_joint_interface.registerHandle(posvel_handle);
   m_jnt_state_interface.registerHandle(state_handle);
-
   if (!m_port_handler->openPort())
   {
     ROS_ERROR("Failed to open the port!");
@@ -111,11 +111,9 @@ int main(int argc, char **argv)
   {
     const ros::Time     time   = ros::Time::now();
     const ros::Duration period = time - prev_time;
-
     deimos.read();
     cm.update(time, period);
     deimos.write();
-
     rate.sleep();
   }
 }

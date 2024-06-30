@@ -27,7 +27,6 @@
 #define ADDR_MX_PRESENT_POSITION        36
 #define ADDR_MX_MOVING                  46
 
-// Data Byte Length
 #define LEN_MX_GOAL_POSITION            2
 #define LEN_MX_PRESENT_POSITION         2
 #define LEN_MX_MOVING                   1
@@ -52,13 +51,6 @@ namespace deimos_control
     void read();
 
   private:
-    /* Robot configuration */
-    enum MotorType
-    {
-      DYNAMIXEL,
-      AK60
-    };
-
     static const size_t m_number_of_joints;
     static const std::vector<double> m_joint_reductions;
     static const std::vector<std::string> m_joint_names;
@@ -77,7 +69,5 @@ namespace deimos_control
     std::vector<double> m_arr_cmd_acc;
   }; // class RoboticArm
 } // namespace deimos_control
-
-
 
 #endif // DEIMOS_HW_HPP
