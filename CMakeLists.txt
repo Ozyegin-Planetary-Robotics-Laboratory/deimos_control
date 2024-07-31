@@ -9,7 +9,6 @@ project(deimos_control)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  tmotor
   std_msgs
   hardware_interface
   controller_manager
@@ -104,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES deimos_control
-  CATKIN_DEPENDS roscpp tmotor std_msgs
+  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
 )
 
@@ -135,22 +134,25 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/deimos_control_node.cpp)
 
-add_executable(DeimosHw
-  src/deimos_hw.cpp
-  src/dynamixel_sdk/group_bulk_read.cpp
-  src/dynamixel_sdk/group_bulk_write.cpp
-  src/dynamixel_sdk/group_sync_read.cpp
-  src/dynamixel_sdk/group_sync_write.cpp
-  src/dynamixel_sdk/packet_handler.cpp
-  src/dynamixel_sdk/port_handler_arduino.cpp
-  src/dynamixel_sdk/port_handler_linux.cpp
-  src/dynamixel_sdk/port_handler_mac.cpp
-  src/dynamixel_sdk/port_handler_windows.cpp
-  src/dynamixel_sdk/port_handler.cpp
-  src/dynamixel_sdk/protocol1_packet_handler.cpp
-  src/dynamixel_sdk/protocol2_packet_handler.cpp
-)
-target_link_libraries(DeimosHw ${catkin_LIBRARIES} tmotor)
+add_executable(joystick_test src/main.cpp)
+target_link_libraries(joystick_test ${catkin_LIBRARIES} tmotor)
+
+# add_executable(DeimosHw
+#   src/deimos_hw.cpp
+#   src/dynamixel_sdk/group_bulk_read.cpp
+#   src/dynamixel_sdk/group_bulk_write.cpp
+#   src/dynamixel_sdk/group_sync_read.cpp
+#   src/dynamixel_sdk/group_sync_write.cpp
+#   src/dynamixel_sdk/packet_handler.cpp
+#   src/dynamixel_sdk/port_handler_arduino.cpp
+#   src/dynamixel_sdk/port_handler_linux.cpp
+#   src/dynamixel_sdk/port_handler_mac.cpp
+#   src/dynamixel_sdk/port_handler_windows.cpp
+#   src/dynamixel_sdk/port_handler.cpp
+#   src/dynamixel_sdk/protocol1_packet_handler.cpp
+#   src/dynamixel_sdk/protocol2_packet_handler.cpp
+# )
+# target_link_libraries(DeimosHw ${catkin_LIBRARIES} tmotor)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
