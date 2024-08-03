@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <group ns="deimos">
+        <machine name="local" address="localhost" default="true"/>
+        <rosparam command="load" file="$(find deimos_control)/param/joystick.yaml"/>
+        <node machine="local" pkg="deimos_control" type="joystick_test" output="screen"/>
+    </group>
+</launch>

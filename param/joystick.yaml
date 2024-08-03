@@ -1,0 +1,3 @@
+motor_ids: [15, 12, 13, 14]       # Motor IDs
+can_interface: "vcan0"            # CAN interface
+joystick_frame: "/dev/input/js0"  # Joystick frame
