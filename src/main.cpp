@@ -8,7 +8,7 @@
 static const float MOTOR_MAX_VELOCITY = 5.0f;
 std::vector<float> velocity_commands(4, 0.0);
 
-void joyCallback(sensor_msgs::JoyConstPtr &msg)
+void joyCallback(const sensor_msgs::Joy::ConstPtr &msg)
 {
 
     if (msg->axes.size() < 6)
