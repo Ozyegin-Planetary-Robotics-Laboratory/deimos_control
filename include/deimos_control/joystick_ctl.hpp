@@ -147,6 +147,7 @@ private:
                 if (result == COMM_SUCCESS)
                 {
                     ROS_INFO("Dynamixel motor found with ID: %d", _dxl_id);
+                    break;
                 }
             }
             if (result != COMM_SUCCESS) throw std::runtime_error("Unable to find the motor.");
