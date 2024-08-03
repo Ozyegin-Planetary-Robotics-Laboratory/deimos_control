@@ -3,7 +3,7 @@
 <launch>
     <group>
         <machine name="ares" address="ares" env-loader="/home/kaine/catkin_ws/devel/env.sh" user="kaine" default="true" ssh-port="22" />
-        <include file="$(find ares_control)/launch/manipulator.launch"/>
+        <include file="$(find deimos_control)/launch/manipulator.launch"/>
     </group>
     <group ns="deimos">
         <machine name="local" address="localhost" default="true"/>
