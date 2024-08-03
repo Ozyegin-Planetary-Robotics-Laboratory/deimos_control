@@ -7,6 +7,7 @@
 
 static const float MOTOR_MAX_VELOCITY = 5.0f;
 std::vector<float> velocity_commands(4, 0.0f);
+std::vector<float> reduction_numbers(4, 0.0f);
 
 void joyCallback(const sensor_msgs::Joy::ConstPtr &msg);
 void initializeMotors(std::vector<TMotor::AKManager> &motors);
@@ -62,11 +63,11 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr &msg)
     const float end_effector_cmd = msg->axes[1];
 
     if (!toggle_eof)
-    {
-        velocity_commands[0] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[2]*MOTOR_MAX_VELOCITY));
-        velocity_commands[1] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[1]*MOTOR_MAX_VELOCITY));
-        velocity_commands[2] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[0]*MOTOR_MAX_VELOCITY));
-        velocity_commands[3] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[5]*MOTOR_MAX_VELOCITY));
+    {   
+        velocity_commands[0] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[2]*MOTOR_MAX_VELOCITY)) * reduction_numbers[0];
+        velocity_commands[1] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[1]*MOTOR_MAX_VELOCITY)) * reduction_numbers[1];
+        velocity_commands[2] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[0]*MOTOR_MAX_VELOCITY)) * reduction_numbers[2];
+        velocity_commands[3] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[5]*MOTOR_MAX_VELOCITY)) * reduction_numbers[3];
     }
     else
     {
@@ -90,6 +91,12 @@ void initializeMotors(std::vector<TMotor::AKManager> &motors)
     if (can_interface != "can0" && can_interface != "vcan0")
     {
         throw std::runtime_error("Invalid CAN interface.");
+    }
+    std::vector<float> reduction_numbers;
+    ros::param::get("reduction_numbers", reduction_numbers);
+    if (reduction_numbers.size() != 4)
+    {
+        throw std::runtime_error("Invalid reduction numbers");
     }
     motors.reserve(4);
     for (std::vector<int>::const_iterator id = motor_ids.begin(); id != motor_ids.end(); ++id)
