@@ -125,7 +125,8 @@ private:
     void _initializeDynamixel()
     {   
         std::string device_name;
-        ros::param::get("dxl/device_name", device_name);
+        ros::param::get("dxl/port_name", device_name);
+        ROS_INFO("Device name: %s", device_name.c_str());
         _port_handler = dynamixel::PortHandler::getPortHandler(device_name.c_str());
         _packet_handler = dynamixel::PacketHandler::getPacketHandler(DXL_PROTOCOL_VERSION);
 
