@@ -144,7 +144,10 @@ private:
             for (uint8_t id = 1; id < 256; id++)
             {
                 result = _packet_handler->ping(_port_handler, _dxl_id, &err);
-                if (result == COMM_SUCCESS) break;
+                if (result == COMM_SUCCESS)
+                {
+                    ROS_INFO("Dynamixel motor found with ID: %d", _dxl_id);
+                }
             }
             if (result != COMM_SUCCESS) throw std::runtime_error("Unable to find the motor.");
         }
