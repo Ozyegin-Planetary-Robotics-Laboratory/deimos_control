@@ -99,7 +99,7 @@ private:
 
         ros::param::get("ak60/max_vel", _ak_max_vel);
         _ak_max_vel = std::max(5.0, _ak_max_vel);
-        ros::param::get("dyxl/max_out", _dxl_max_output);
+        ros::param::get("dxl/max_out", _dxl_max_output);
         _dxl_max_output = std::max(1, std::min(1023, _dxl_max_output));
         ros::param::get("ak60/reductions", _reduction_numbers);
         if (_reduction_numbers.size() != 4) throw std::runtime_error("Invalid AK60 reduction numbers");
