@@ -1,5 +1,0 @@
-control_frequency:    50                   # Control frequency
-motor_ids:            [15, 12, 13, 14]     # Motor IDs
-reduction_numbers:    [29, 29, 20, 10]     # Motor reductions
-can_interface:        "vcan0"              # CAN interface
-joystick_frame:       "/dev/input/js0"     # Joystick frame

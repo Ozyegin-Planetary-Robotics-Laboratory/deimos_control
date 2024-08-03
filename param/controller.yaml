@@ -1,0 +1,13 @@
+control_frequency:    50                        # Control frequency
+###################################################################
+ak60:
+  ids:                [15, 12, 13, 14]          # Motor IDs (0-255)
+  reductions:         [29, 29, 20, 10]          # Motor reductions
+  can_interface:      "vcan0"                   # CAN interface
+  max_vel:            5.0                       # Maximum degrees/sec
+###################################################################
+dxl:
+  id:                 1                         # Motor ID (0-255)
+  baud_rate:          1000000                   # Baud rate
+  usb_device:         "/dev/ttyUSB0"            # CAN interface
+  max_out:            128                       # Maximum output (1-1023)
