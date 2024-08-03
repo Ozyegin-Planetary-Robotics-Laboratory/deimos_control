@@ -38,6 +38,7 @@ int main(int argc, char** argv)
             motors[i].sendVelocity(velocity_commands[i]);
             velocity_commands[i] *= 0.8;
         }
+        ROS_INFO("Velocities: %f, %f, %f, %f", velocity_commands[0], velocity_commands[1], velocity_commands[2], velocity_commands[3]);
     }
 }
 
