@@ -2,6 +2,6 @@
 <launch>
     <group ns="deimos">
         <rosparam command="load" file="$(find deimos_control)/param/joystick.yaml"/>
-        <node pkg="deimos_control" type="joystick_test" output="screen"/>
+        <node pkg="deimos_control" type="joystick_test" name="joystick_interface" output="screen"/>
     </group>
 </launch>

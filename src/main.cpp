@@ -92,7 +92,6 @@ void initializeMotors(std::vector<TMotor::AKManager> &motors)
     {
         throw std::runtime_error("Invalid CAN interface.");
     }
-    std::vector<float> reduction_numbers;
     ros::param::get("reduction_numbers", reduction_numbers);
     if (reduction_numbers.size() != 4)
     {
