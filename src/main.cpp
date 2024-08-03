@@ -76,7 +76,7 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr &msg)
     {   
         velocity_commands[0] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, -msg->axes[2]*MOTOR_MAX_VELOCITY)) * reduction_numbers[0];
         velocity_commands[1] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[1]*MOTOR_MAX_VELOCITY)) * reduction_numbers[1];
-        velocity_commands[2] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[0]*MOTOR_MAX_VELOCITY)) * reduction_numbers[2];
+        velocity_commands[2] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, -msg->axes[5]*MOTOR_MAX_VELOCITY)) * reduction_numbers[2];
         velocity_commands[3] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[5]*MOTOR_MAX_VELOCITY)) * reduction_numbers[3];
     }
     else
