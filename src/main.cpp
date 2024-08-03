@@ -37,7 +37,6 @@ int main(int argc, char** argv)
         for (size_t i = 0; i < 4; ++i)
         {
             motors[i].sendVelocity(velocity_commands[i]);
-            velocity_commands[i] *= 0.8;
         }
         ROS_INFO("Velocities: %f, %f, %f, %f", velocity_commands[0], velocity_commands[1], velocity_commands[2], velocity_commands[3]);
     }
@@ -64,7 +63,7 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr &msg)
 
     if (!toggle_eof)
     {   
-        velocity_commands[0] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[2]*MOTOR_MAX_VELOCITY)) * reduction_numbers[0];
+        velocity_commands[0] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, -msg->axes[2]*MOTOR_MAX_VELOCITY)) * reduction_numbers[0];
         velocity_commands[1] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[1]*MOTOR_MAX_VELOCITY)) * reduction_numbers[1];
         velocity_commands[2] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[0]*MOTOR_MAX_VELOCITY)) * reduction_numbers[2];
         velocity_commands[3] = std::max(-MOTOR_MAX_VELOCITY, std::min(MOTOR_MAX_VELOCITY, msg->axes[5]*MOTOR_MAX_VELOCITY)) * reduction_numbers[3];
