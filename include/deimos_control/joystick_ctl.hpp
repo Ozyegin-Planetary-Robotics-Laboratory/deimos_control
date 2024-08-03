@@ -141,7 +141,7 @@ private:
         if (result != COMM_SUCCESS) {
             ROS_INFO("Unable to find the designated Dynamixel motor with id %d, searching all IDs.", _dxl_id);
             _dxl_id = 1;
-            for (uint8_t id = 1; id < 256; id++)
+            for (uint8_t id = 1; id < 255; id++)
             {
                 result = _packet_handler->ping(_port_handler, _dxl_id, &err);
                 if (result == COMM_SUCCESS)
