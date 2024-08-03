@@ -1,3 +1,4 @@
+#include <cmath>
 #include <thread>
 #include <chrono>
 #include <vector>
@@ -29,16 +30,26 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    ros::Rate command_frequency(10.0);
+    double freq;
+    ros::param::get("control_frequency", freq);
+    if (freq <= 0)
+    {
+        ROS_ERROR("Invalid control frequency");
+        return 1;
+    }
+    freq = std::max(1.0, freq);
+    const double beta = 0.03;
+    const double decay_constant = 1.0f - exp(-beta*freq);
+    ros::Rate control_frequency(freq);
     while (ros::ok())
     {
-        command_frequency.sleep();
+        control_frequency.sleep();
         ros::spinOnce();
         for (size_t i = 0; i < 4; ++i)
         {
             motors[i].sendVelocity(velocity_commands[i]);
+            // velocity_commands[i] *= decay_constant;
         }
-        ROS_INFO("Velocities: %f, %f, %f, %f", velocity_commands[0], velocity_commands[1], velocity_commands[2], velocity_commands[3]);
     }
 }
 
@@ -75,6 +86,7 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr &msg)
         velocity_commands[2] = 0.0f;
         velocity_commands[3] = 0.0f;
     }
+
 }
 
 void initializeMotors(std::vector<TMotor::AKManager> &motors)
