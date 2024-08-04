@@ -56,19 +56,23 @@ namespace deimos_control
             ros::Rate rate(_control_f);
             while (ros::ok())
             {
+                ROS_INFO("Sleeping...");
                 rate.sleep();
 
                 /* Update command. */
+                ROS_INFO("Updating command...");
                 ros::spinOnce();
 
                 /* Read motor states. */
                 // to-do
 
                 /* Write to motors. */
+                ROS_INFO("Writing to AK60 motors...");
                 for (size_t i = 0; i < _motors.size(); ++i)
                 {
                     _motors[i].sendVelocity(_ak_velocity_commands[i]);
                 }
+                ROS_INFO("Writing to Dynamixel motor...");
                 _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_MOVING_SPEED, _dxl_output_command);
             }
         }

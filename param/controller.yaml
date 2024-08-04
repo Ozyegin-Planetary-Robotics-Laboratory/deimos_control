@@ -1,4 +1,4 @@
-control_frequency:    50                        # Control frequency
+control_frequency:    5                         # Control frequency
 ###################################################################
 ak60:
   ids:                [15, 12, 13, 14]          # Motor IDs (0-255)
