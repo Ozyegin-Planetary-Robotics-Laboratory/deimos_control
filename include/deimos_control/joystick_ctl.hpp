@@ -24,7 +24,7 @@ namespace deimos_control
                              _dxl_max_output(5.0),
                              _dxl_output_command(0)
         {
-            _joy_sub = _nh.subscribe<sensor_msgs::Joy>("/joy", 1, &DeimosController::_joyCallback, this);
+            _joy_sub = _nh.subscribe<sensor_msgs::Joy>("joy", 1, &DeimosController::_joyCallback, this);
         }
 
         void run()
@@ -52,34 +52,29 @@ namespace deimos_control
 
         void _controlLoop()
         {
-            ROS_INFO("Initializing control loop at frequency %f Hz...", _control_f);
+            ROS_INFO("Starting control loop at %f Hz frequency...", _control_f);
             ros::Rate rate(_control_f);
             while (ros::ok())
             {
-                ROS_INFO("Sleeping...");
                 rate.sleep();
 
                 /* Update command. */
-                ROS_INFO("Updating command...");
                 ros::spinOnce();
 
                 /* Read motor states. */
                 // to-do
 
                 /* Write to motors. */
-                ROS_INFO("Writing to AK60 motors...");
                 for (size_t i = 0; i < _motors.size(); ++i)
                 {
                     _motors[i].sendVelocity(_ak_velocity_commands[i]);
                 }
-                ROS_INFO("Writing to Dynamixel motor...");
                 _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_MOVING_SPEED, _dxl_output_command);
             }
         }
 
         void _joyCallback(const sensor_msgs::JoyConstPtr &msg)
         {
-            ROS_INFO("Processing joystick input...");
             if (msg->axes.size() < 6 || msg->buttons.size() < 12)
                 return;
             const bool toggle_eof = msg->buttons[0];
