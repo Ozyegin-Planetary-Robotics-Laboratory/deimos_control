@@ -123,39 +123,40 @@ private:
 
     void _initializeDynamixel()
     {   
-        std::string device_name;
-        ros::param::get("dxl/port_name", device_name);
-        ROS_INFO("Device name: %s", device_name.c_str());
-        _port_handler = dynamixel::PortHandler::getPortHandler(device_name.c_str());
-        _packet_handler = dynamixel::PacketHandler::getPacketHandler(DXL_PROTOCOL_VERSION);
+        // std::string device_name;
+        // ros::param::get("dxl/port_name", device_name);
+        // ROS_INFO("Device name: %s", device_name.c_str());
+        _port_handler = dynamixel::PortHandler::getPortHandler("/dev/ttyUSB0");
+        _packet_handler = dynamixel::PacketHandler::getPacketHandler(1.0);
 
-        int dxl_baudrate, dxl_id;
-        double dxl_reduction;
-        ros::param::get("dxl/baudrate", dxl_baudrate);
-        ros::param::get("dxl/id", dxl_id);
-        _dxl_id = std::min(std::max(1, dxl_id), 255);
+        // int dxl_baudrate, dxl_id;
+        // double dxl_reduction;
+        // ros::param::get("dxl/baudrate", dxl_baudrate);
+        // ros::param::get("dxl/id", dxl_id);
+        // _dxl_id = std::min(std::max(1, dxl_id), 255);
         if (!_port_handler->openPort()) throw std::runtime_error("Failed to open the port!");
-        if (!_port_handler->setBaudRate(dxl_baudrate)) throw std::runtime_error("Failed to set the baud rate!");
-        int result = _packet_handler->ping(_port_handler, _dxl_id);
-        if (result != COMM_SUCCESS) {
-            ROS_INFO("Unable to find the designated Dynamixel motor with id %d, searching all IDs.", _dxl_id);
-            _dxl_id = 1;
-            for (uint8_t id = 1; id < 255; id++)
-            {
-                result = _packet_handler->ping(_port_handler, id);
-                if (result == COMM_SUCCESS)
-                {
-                    ROS_INFO("Dynamixel motor found with ID: %d", id);
-                    _dxl_id = id;
-                    break;
-                }
-            }
-            if (result != COMM_SUCCESS) throw std::runtime_error("Unable to find the motor.");
-        }
-        result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CW_ANGLE_LIMIT, 0);
-        if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CW angle limit!");
-        result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CCW_ANGLE_LIMIT, 0);
-        if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CCW angle limit!");
+        if (!_port_handler->setBaudRate(56700)) throw std::runtime_error("Failed to set the baud rate!");
+        if (_packet_handler->ping(_port_handler, 1) != COMM_SUCCESS) throw std::runtime_error("Failed to ping the motor!");
+        // {
+        //     ROS_INFO("Unable to find the designated Dynamixel motor with id %d, searching all IDs.", _dxl_id);
+        //     _dxl_id = 1;
+        //     for (uint8_t id = 1; id < 255; id++)
+        //     {
+        //         ROS_INFO("Trying ID: %d", id);
+        //         result = _packet_handler->ping(_port_handler, id);
+        //         if (result == COMM_SUCCESS)
+        //         {
+        //             ROS_INFO("Dynamixel motor found with ID: %d", id);
+        //             _dxl_id = id;
+        //             break;
+        //         }
+        //     }
+        //     if (result != COMM_SUCCESS) throw std::runtime_error("Unable to find the motor.");
+        // }
+        // result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CW_ANGLE_LIMIT, 0);
+        // if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CW angle limit!");
+        // result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CCW_ANGLE_LIMIT, 0);
+        // if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CCW angle limit!");
     }
 };
 
