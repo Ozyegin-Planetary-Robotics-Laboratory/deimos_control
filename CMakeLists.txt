@@ -151,6 +151,23 @@ add_executable(joy_teleop
 )
 target_link_libraries(joy_teleop ${catkin_LIBRARIES} tmotor)
 
+add_executable(dynamixel_test
+  src/dynamixel_test.cpp
+  src/dynamixel_sdk/group_bulk_read.cpp
+  src/dynamixel_sdk/group_bulk_write.cpp
+  src/dynamixel_sdk/group_sync_read.cpp
+  src/dynamixel_sdk/group_sync_write.cpp
+  src/dynamixel_sdk/packet_handler.cpp
+  src/dynamixel_sdk/port_handler_arduino.cpp
+  src/dynamixel_sdk/port_handler_linux.cpp
+  src/dynamixel_sdk/port_handler_mac.cpp
+  src/dynamixel_sdk/port_handler_windows.cpp
+  src/dynamixel_sdk/port_handler.cpp
+  src/dynamixel_sdk/protocol1_packet_handler.cpp
+  src/dynamixel_sdk/protocol2_packet_handler.cpp 
+)
+target_link_libraries(dynamixel_test ${catkin_LIBRARIES})
+
 # add_executable(DeimosHw
 #   src/deimos_hw.cpp
 #   src/dynamixel_sdk/group_bulk_read.cpp
