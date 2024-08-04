@@ -84,12 +84,9 @@ namespace deimos_control
             _ak_velocity_commands[1] = toggle_eof ? 0.0f : std::max(-_ak_max_vel, std::min(_ak_max_vel, msg->axes[1] * _ak_max_vel)) * _reduction_numbers[1];
             _ak_velocity_commands[2] = toggle_eof ? 0.0f : std::max(-_ak_max_vel, std::min(_ak_max_vel, -msg->axes[5] * _ak_max_vel)) * _reduction_numbers[2];
             _ak_velocity_commands[3] = toggle_eof ? 0.0f : std::max(-_ak_max_vel, std::min(_ak_max_vel, msg->axes[5] * _ak_max_vel)) * _reduction_numbers[3];
-            if (dxl_cmd > 0.1)
-                _dxl_output_command = static_cast<uint16_t>(dxl_cmd * _dxl_max_output);
-            else if (dxl_cmd < -0.1)
-                _dxl_output_command = static_cast<uint16_t>(-dxl_cmd * _dxl_max_output) | 0b0000001000000000;
-            else
-                _dxl_output_command = 0;
+            if      (dxl_cmd > 0.1)  _dxl_output_command = static_cast<uint16_t> ( dxl_cmd * _dxl_max_output);
+            else if (dxl_cmd < -0.1) _dxl_output_command = static_cast<uint16_t> (-dxl_cmd * _dxl_max_output) | (1 << 10);
+            else                     _dxl_output_command = 0;
         }
 
         void _initializeControlVariables()
