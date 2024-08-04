@@ -3,12 +3,11 @@
 <launch>
     <group>
         <machine name="ares" address="ares" env-loader="/home/kaine/catkin_ws/devel/env.sh" user="kaine" default="true" ssh-port="22" />
-        <rosparam command="load" file="$(find deimos_control)/param/controller.yaml"/>
-        <node pkg="deimos_control" type="joy_teleop" name="joy_teleop" output="screen"/>
+        <include file="$(find deimos_control)/launch/manipulator.launch"/>
     </group>
     <group ns="deimos">
         <machine name="local" address="localhost" default="true"/>
-        <node machine="local" pkg="joy" type="joy_node" name="joy_node" output="screen">
+        <node machine="local" pkg="joy" type="joy_node" name="joy_node" output="log">
             <param name="dev" type="string" value="/dev/input/js0"/>           
         </node>
     </group>
