@@ -42,7 +42,7 @@ private:
     int _dxl_max_output;
     double _ak_max_vel;
     double _control_f;
-    int _dxl_id;
+    uint8_t _dxl_id;
     uint16_t _dxl_output_command;
     std::vector<double> _ak_velocity_commands;
     std::vector<double> _reduction_numbers;
@@ -129,31 +129,32 @@ private:
         _port_handler = dynamixel::PortHandler::getPortHandler(device_name.c_str());
         _packet_handler = dynamixel::PacketHandler::getPacketHandler(DXL_PROTOCOL_VERSION);
 
-        int dxl_baudrate;
+        int dxl_baudrate, dxl_id;
         double dxl_reduction;
         ros::param::get("dxl/baudrate", dxl_baudrate);
-        ros::param::get("dxl/id", _dxl_id);
+        ros::param::get("dxl/id", dxl_id);
+        _dxl_id = std::min(std::max(1, dxl_id), 255);
         if (!_port_handler->openPort()) throw std::runtime_error("Failed to open the port!");
         if (!_port_handler->setBaudRate(dxl_baudrate)) throw std::runtime_error("Failed to set the baud rate!");
-        uint8_t err;
-        int result = _packet_handler->ping(_port_handler, std::min(std::max(0, _dxl_id), 255), &err);
+        int result = _packet_handler->ping(_port_handler, _dxl_id);
         if (result != COMM_SUCCESS) {
             ROS_INFO("Unable to find the designated Dynamixel motor with id %d, searching all IDs.", _dxl_id);
             _dxl_id = 1;
             for (uint8_t id = 1; id < 255; id++)
             {
-                result = _packet_handler->ping(_port_handler, _dxl_id, &err);
+                result = _packet_handler->ping(_port_handler, id);
                 if (result == COMM_SUCCESS)
                 {
-                    ROS_INFO("Dynamixel motor found with ID: %d", _dxl_id);
+                    ROS_INFO("Dynamixel motor found with ID: %d", id);
+                    _dxl_id = id;
                     break;
                 }
             }
             if (result != COMM_SUCCESS) throw std::runtime_error("Unable to find the motor.");
         }
-        result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CW_ANGLE_LIMIT, 0, &err);
+        result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CW_ANGLE_LIMIT, 0);
         if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CW angle limit!");
-        result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CCW_ANGLE_LIMIT, 0, &err);
+        result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CCW_ANGLE_LIMIT, 0);
         if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CCW angle limit!");
     }
 };
