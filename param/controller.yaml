@@ -8,6 +8,6 @@ ak60:
 ###################################################################
 dxl:
   id:                 1                         # Motor ID (0-255)
-  baud_rate:          57600                     # Baud rate
+  baud_rate:          56700                     # Baud rate
   port_name:          "/dev/ttyUSB0"            # CAN interface
   max_out:            128                       # Maximum output (1-1023)
