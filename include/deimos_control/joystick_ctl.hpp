@@ -153,10 +153,10 @@ private:
         //     }
         //     if (result != COMM_SUCCESS) throw std::runtime_error("Unable to find the motor.");
         // }
-        // result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CW_ANGLE_LIMIT, 0);
-        // if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CW angle limit!");
-        // result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CCW_ANGLE_LIMIT, 0);
-        // if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CCW angle limit!");
+        int result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CW_ANGLE_LIMIT, 0);
+        if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CW angle limit!");
+        result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CCW_ANGLE_LIMIT, 0);
+        if (result != COMM_SUCCESS) throw std::runtime_error("Failed to set the CCW angle limit!");
     }
 };
 
