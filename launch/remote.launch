@@ -3,7 +3,8 @@
 <launch>
     <group>
         <machine name="ares" address="ares" env-loader="/home/kaine/catkin_ws/devel/env.sh" user="kaine" default="true" ssh-port="22" />
-        <include file="$(find deimos_control)/launch/manipulator.launch"/>
+        <rosparam command="load" file="$(find deimos_control)/param/controller.yaml"/>
+        <node pkg="deimos_control" type="joy_teleop" name="joy_teleop" output="screen"/>
     </group>
     <group ns="deimos">
         <machine name="local" address="localhost" default="true"/>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<launch>
-    <group ns="deimos">
-        <rosparam command="load" file="$(find deimos_control)/param/controller.yaml"/>
-        <node pkg="deimos_control" type="joy_teleop" name="joy_teleop" output="screen"/>
-    </group>
-</launch>
