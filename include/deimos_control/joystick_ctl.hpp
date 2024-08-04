@@ -24,11 +24,11 @@ namespace deimos_control
                              _dxl_max_output(5.0),
                              _dxl_output_command(0)
         {
+            _joy_sub = _nh.subscribe<sensor_msgs::Joy>("/joy", 1, &DeimosController::_joyCallback, this);
         }
 
         void run()
         {
-            _joy_sub = _nh.subscribe<sensor_msgs::Joy>("/joy", 1, &DeimosController::_joyCallback, this);
             _initializeControlVariables();
             _initializeAKMotors();
             _initializeDynamixel();
@@ -52,6 +52,7 @@ namespace deimos_control
 
         void _controlLoop()
         {
+            ROS_INFO("Initializing control loop at frequency %f Hz...", _control_f);
             ros::Rate rate(_control_f);
             while (ros::ok())
             {
