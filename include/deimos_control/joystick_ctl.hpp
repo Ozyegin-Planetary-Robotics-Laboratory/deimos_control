@@ -77,16 +77,34 @@ namespace deimos_control
         {
             if (msg->axes.size() < 6 || msg->buttons.size() < 12)
                 return;
+
             const bool toggle_eof = msg->buttons[0];
             const float dxl_cmd = std::max(-1.0f, std::min(1.0f, msg->axes[2]));
             const float eof_cmd = std::max(-1.0f, std::min(1.0f, msg->axes[1]));
-            _ak_velocity_commands[0] = toggle_eof ? 0.0f : std::max(-_ak_max_vel, std::min(_ak_max_vel, -msg->axes[2] * _ak_max_vel)) * _reduction_numbers[0];
-            _ak_velocity_commands[1] = toggle_eof ? 0.0f : std::max(-_ak_max_vel, std::min(_ak_max_vel, msg->axes[1] * _ak_max_vel)) * _reduction_numbers[1];
-            _ak_velocity_commands[2] = toggle_eof ? 0.0f : std::max(-_ak_max_vel, std::min(_ak_max_vel, -msg->axes[5] * _ak_max_vel)) * _reduction_numbers[2];
-            _ak_velocity_commands[3] = toggle_eof ? 0.0f : std::max(-_ak_max_vel, std::min(_ak_max_vel, msg->axes[5] * _ak_max_vel)) * _reduction_numbers[3];
-            if      (dxl_cmd > 0.1)  _dxl_output_command = static_cast<uint16_t> ( dxl_cmd * _dxl_max_output);
-            else if (dxl_cmd < -0.1) _dxl_output_command = static_cast<uint16_t> (-dxl_cmd * _dxl_max_output) | (1 << 10);
-            else                     _dxl_output_command = 0;
+
+            if (toggle_eof)
+            {
+                _ak_velocity_commands[0] = 0.0f;
+                _ak_velocity_commands[1] = 0.0f;
+                _ak_velocity_commands[2] = 0.0f;
+                _ak_velocity_commands[3] = 0.0f;
+            }
+            else
+            {
+                _ak_velocity_commands[0] = std::max(-_ak_max_vel, std::min(_ak_max_vel, -msg->axes[2] * _ak_max_vel)) * _reduction_numbers[0];
+                _ak_velocity_commands[1] = std::max(-_ak_max_vel, std::min(_ak_max_vel, msg->axes[1] * _ak_max_vel)) * _reduction_numbers[1];
+                _ak_velocity_commands[2] = std::max(-_ak_max_vel, std::min(_ak_max_vel, -msg->axes[5] * _ak_max_vel)) * _reduction_numbers[2];
+                _ak_velocity_commands[3] = std::max(-_ak_max_vel, std::min(_ak_max_vel, msg->axes[5] * _ak_max_vel)) * _reduction_numbers[3];
+                ROS_INFO("AK60 velocities: %f, %f, %f, %f", _ak_velocity_commands[0], _ak_velocity_commands[1], _ak_velocity_commands[2], _ak_velocity_commands[3]);
+                ROS_INFO("axes message: %f", msg->axes[5]);
+            }
+            
+            if (dxl_cmd > 0.1) 
+                _dxl_output_command = static_cast<uint16_t> ( dxl_cmd * _dxl_max_output);
+            else if (dxl_cmd < -0.1)
+                _dxl_output_command = static_cast<uint16_t> (-dxl_cmd * _dxl_max_output) | (1 << 10);
+            else
+                _dxl_output_command = 0;
         }
 
         void _initializeControlVariables()
