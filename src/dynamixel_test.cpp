@@ -1,6 +1,5 @@
 #include <ros/ros.h>
 #include <dynamixel_sdk/dynamixel_sdk.h>
-#include <dynamixel_sdk/dynamixel_stats.h>
 
 bool initialize_dynamixel(dynamixel::PortHandler *portHandler, dynamixel::PacketHandler *packetHandler)
 {
