@@ -3,7 +3,7 @@ control_frequency:    30                        # Control frequency
 ak60:
   ids:                [15, 12, 13, 14]          # Motor IDs (0-255)
   reductions:         [29, 29, 20, 10]          # Motor reductions
-  can_interface:      "vcan0"                   # CAN interface
+  can_interface:      "can0"                    # CAN interface
   max_vel:            5.0                       # Maximum degrees/sec
 ###################################################################
 dxl:

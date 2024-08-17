@@ -6,6 +6,7 @@
 #include <chrono>
 #include <vector>
 #include <ros/ros.h>
+#include <ros/console.h>
 #include <sensor_msgs/Joy.h>
 #include <dynamixel_sdk/dynamixel_sdk.h>
 #include <deimos_control/dynamixel_abi.h>
