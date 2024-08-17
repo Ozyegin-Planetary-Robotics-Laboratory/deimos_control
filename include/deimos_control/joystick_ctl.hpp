@@ -109,12 +109,18 @@ namespace deimos_control
         ROS_INFO("Axes message: %f", msg->axes[5]);
       }
       
-      if (dxl_cmd > 0.1) 
+      if (dxl_cmd > 0.1)
+      {
         _dxl_output_command = static_cast<uint16_t> ( dxl_cmd * _dxl_max_output);
+      }
       else if (dxl_cmd < -0.1)
+      {
         _dxl_output_command = static_cast<uint16_t> (-dxl_cmd * _dxl_max_output) | (1 << 10);
+      }
       else
+      {
         _dxl_output_command = 0;
+      }
     }
 
     void _initializeControlVariables()
@@ -132,7 +138,9 @@ namespace deimos_control
       _dxl_max_output = std::max(1, std::min(1023, _dxl_max_output));
       ros::param::get("ak60/reductions", _reduction_numbers);
       if (_reduction_numbers.size() != 4)
+      {
         throw std::runtime_error("Invalid AK60 reduction numbers");
+      }
       ROS_INFO("AK60 max velocity: %f", _ak_max_vel);
       ROS_INFO("Dynamixel max output: %d", _dxl_max_output);
       ROS_INFO("AK60 reduction numbers: %f, %f, %f, %f", _reduction_numbers[0], _reduction_numbers[1], _reduction_numbers[2], _reduction_numbers[3]);
@@ -143,14 +151,20 @@ namespace deimos_control
       std::vector<int> motor_ids;
       ros::param::get("ak60/ids", motor_ids);
       if (motor_ids.size() != 4)
+      {
         throw std::runtime_error("Invalid motor ids");
+      }
       for (size_t i = 0; i < 4; i++)
+      {
         _motors->setMotorID(motor_ids[i]);
+      }
       
       std::string can_interface;
       ros::param::get("ak60/can_interface", can_interface);
       if (can_interface != "can0" && can_interface != "vcan0")
+      {
         throw std::runtime_error("Invalid CAN interface.");
+      }
       _can_interface = can_interface;
   
       ROS_INFO("Connecting to AK60 motors...");
@@ -171,13 +185,19 @@ namespace deimos_control
       ros::param::get("dxl/baudrate", dxl_baudrate);
       ros::param::get("dxl/id", dxl_id);
       _dxl_id = std::min(std::max(1, dxl_id), 255);
-      ROS_INFO("Connecting to Dynamixel motor...");
+      ROS_INFO("Connecting to Dynamixel motor..."); 
       if (!_port_handler->openPort())
+      {
         throw std::runtime_error("Failed to open the port!");
+      }
       if (!_port_handler->setBaudRate(56700))
+      {
         throw std::runtime_error("Failed to set the baud rate!");
+      }
       if ((result = _packet_handler->ping(_port_handler, 1)) != COMM_SUCCESS)
+      {
         throw std::runtime_error("Failed to ping the motor!");
+      }
       
       while (result != COMM_SUCCESS)
       {
@@ -194,16 +214,22 @@ namespace deimos_control
           }
         }
         if (result != COMM_SUCCESS)
+        {
           throw std::runtime_error("Unable to find the motor.");
+        }
       }
 
       ROS_INFO("Dynamixel is connected!");
       result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CW_ANGLE_LIMIT, 0);
       if (result != COMM_SUCCESS)
+      {
         throw std::runtime_error("Failed to set the CW angle limit!");
+      }
       result = _packet_handler->write2ByteTxRx(_port_handler, _dxl_id, DXL_ADDR_MX_CCW_ANGLE_LIMIT, 0);
       if (result != COMM_SUCCESS)
+      {
         throw std::runtime_error("Failed to set the CCW angle limit!");
+      }
       ROS_INFO("Dynamixel motor initialized.");
     }
 

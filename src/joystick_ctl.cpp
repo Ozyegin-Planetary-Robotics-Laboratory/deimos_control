@@ -13,6 +13,7 @@ int main(int argc, char **argv)
     }
     catch(const std::exception& e)
     {
+        ROS_WARN("Program terminated due to some error.");
         ROS_ERROR("Exception caught: %s", e.what());
         return 1;
     }
