@@ -18,6 +18,7 @@ namespace deimos_control
   {
   public:
     DeimosController() :
+    _nh("~"),
     _dxl_id(1),
     _dxl_max_output(5.0),
     _dxl_output_command(0),
