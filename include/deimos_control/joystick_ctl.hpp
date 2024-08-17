@@ -98,13 +98,17 @@ namespace deimos_control
         _ak_velocity_commands[1] = 0.0f;
         _ak_velocity_commands[2] = 0.0f;
         _ak_velocity_commands[3] = 0.0f;
-        if (dxl_cmd > 0.1)
+        if (dxl_cmd > 0.2)
         {
-          _dxl_output_command = static_cast<uint16_t> ( dxl_cmd * _dxl_max_output);
+          _dxl_output_command = static_cast<uint16_t> ( dxl_cmd * _dxl_max_output/ 2.0);
         }
-        else if (dxl_cmd < -0.1)
+        else if (dxl_cmd < -0.2)
         {
-          _dxl_output_command = static_cast<uint16_t> (-dxl_cmd * _dxl_max_output) | (1 << 10);
+          _dxl_output_command = static_cast<uint16_t> (-dxl_cmd * _dxl_max_output / 2.0) | (1 << 10);
+        }
+        else
+        {
+          _dxl_output_command = 0;
         }
       }
       else
