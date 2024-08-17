@@ -156,7 +156,7 @@ namespace deimos_control
       }
       for (size_t i = 0; i < 4; i++)
       {
-        _motors->setMotorID(motor_ids[i]);
+        _motors[i].setMotorID(motor_ids[i]);
       }
       
       std::string can_interface;
