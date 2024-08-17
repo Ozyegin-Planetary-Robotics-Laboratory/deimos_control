@@ -132,7 +132,7 @@ namespace deimos_control
       _dxl_max_output = std::max(1, std::min(1023, _dxl_max_output));
       ros::param::get("ak60/reductions", _reduction_numbers);
       if (_reduction_numbers.size() != 4)
-          throw std::runtime_error("Invalid AK60 reduction numbers");
+        throw std::runtime_error("Invalid AK60 reduction numbers");
       ROS_INFO("AK60 max velocity: %f", _ak_max_vel);
       ROS_INFO("Dynamixel max output: %d", _dxl_max_output);
       ROS_INFO("AK60 reduction numbers: %f, %f, %f, %f", _reduction_numbers[0], _reduction_numbers[1], _reduction_numbers[2], _reduction_numbers[3]);
@@ -144,7 +144,9 @@ namespace deimos_control
       ros::param::get("ak60/ids", motor_ids);
       if (motor_ids.size() != 4)
         throw std::runtime_error("Invalid motor ids");
-
+      for (size_t i = 0; i < 4; i++)
+        _motors->setMotorID(motor_ids[i]);
+      
       std::string can_interface;
       ros::param::get("ak60/can_interface", can_interface);
       if (can_interface != "can0" && can_interface != "vcan0")
