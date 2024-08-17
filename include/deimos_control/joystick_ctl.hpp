@@ -98,6 +98,14 @@ namespace deimos_control
         _ak_velocity_commands[1] = 0.0f;
         _ak_velocity_commands[2] = 0.0f;
         _ak_velocity_commands[3] = 0.0f;
+        if (dxl_cmd > 0.1)
+        {
+          _dxl_output_command = static_cast<uint16_t> ( dxl_cmd * _dxl_max_output);
+        }
+        else if (dxl_cmd < -0.1)
+        {
+          _dxl_output_command = static_cast<uint16_t> (-dxl_cmd * _dxl_max_output) | (1 << 10);
+        }
       }
       else
       {
@@ -107,19 +115,6 @@ namespace deimos_control
         _ak_velocity_commands[3] = std::max(-_ak_max_vel, std::min(_ak_max_vel, msg->axes[5] * _ak_max_vel)) * _reduction_numbers[3];
         ROS_INFO("AK60 velocities: %f, %f, %f, %f", _ak_velocity_commands[0], _ak_velocity_commands[1], _ak_velocity_commands[2], _ak_velocity_commands[3]);
         ROS_INFO("Axes message: %f", msg->axes[5]);
-      }
-      
-      if (dxl_cmd > 0.1)
-      {
-        _dxl_output_command = static_cast<uint16_t> ( dxl_cmd * _dxl_max_output);
-      }
-      else if (dxl_cmd < -0.1)
-      {
-        _dxl_output_command = static_cast<uint16_t> (-dxl_cmd * _dxl_max_output) | (1 << 10);
-      }
-      else
-      {
-        _dxl_output_command = 0;
       }
     }
 
