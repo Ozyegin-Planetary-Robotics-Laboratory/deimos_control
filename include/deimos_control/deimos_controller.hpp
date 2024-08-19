@@ -1,5 +1,5 @@
-#ifndef JOYSTICK_CTL_HPP
-#define JOYSTICK_CTL_HPP
+#ifndef DEIMOS_CONTROLLER_HPP
+#define DEIMOS_CONTROLLER_HPP
 
 #include <cmath>
 #include <thread>
@@ -273,4 +273,4 @@ namespace deimos_control
   }; // class DeimosController
 }; // namespace deimos_control
 
-#endif // JOYSTICK_CTL_HPP
+#endif // DEIMOS_CONTROLLER_HPP

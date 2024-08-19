@@ -134,8 +134,8 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/deimos_control_node.cpp)
 
-add_executable(joy_teleop
-  src/joystick_ctl.cpp
+add_executable(deimos_controller
+  src/deimos_controller.cpp
   src/dynamixel_sdk/group_bulk_read.cpp
   src/dynamixel_sdk/group_bulk_write.cpp
   src/dynamixel_sdk/group_sync_read.cpp
@@ -149,7 +149,7 @@ add_executable(joy_teleop
   src/dynamixel_sdk/protocol1_packet_handler.cpp
   src/dynamixel_sdk/protocol2_packet_handler.cpp 
 )
-target_link_libraries(joy_teleop ${catkin_LIBRARIES} tmotor)
+target_link_libraries(deimos_controller ${catkin_LIBRARIES} tmotor)
 
 # add_executable(DeimosHw
 #   src/deimos_hw.cpp

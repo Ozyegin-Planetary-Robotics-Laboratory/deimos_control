@@ -2,6 +2,6 @@
 <launch>
     <group ns="deimos">
         <rosparam command="load" file="$(find deimos_control)/param/controller.yaml"/>
-        <node pkg="deimos_control" type="joy_teleop" name="joy_teleop" output="log"/>
+        <node pkg="deimos_control" type="deimos_controller" name="deimos_controller" output="log"/>
     </group>
 </launch>
