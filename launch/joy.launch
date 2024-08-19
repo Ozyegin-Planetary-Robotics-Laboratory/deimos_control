@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <group ns="deimos">
-    <node pkg="joy" type="joy_node" name="joystick" output="screen">
+    <node pkg="joy" type="joy_node" name="joystick" output="log">
       <param name="dev" type="string" value="/dev/input/deimosjs"/>
     </node>
   </group>
