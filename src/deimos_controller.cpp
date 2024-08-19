@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include <deimos_control/joystick_ctl.hpp>
+#include <deimos_control/deimos_controller.hpp>
 
 int main(int argc, char **argv)
 {
